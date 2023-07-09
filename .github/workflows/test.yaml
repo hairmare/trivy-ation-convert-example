@@ -24,7 +24,7 @@ jobs:
           image-ref: trivy.json
           scan-type: 'convert'
           format: 'sarif'
-          # we don't actual limit them, but this gates convert
+          # we don't actual limit them, but this gates the convert action
           limit-severities-for-sarif: true
           # empty makes it skip the --vuln-type arg
           vuln-type: ''
@@ -32,16 +32,30 @@ jobs:
 
       - run: cat trivy.sarif
 
-      - name: Convert trivy results to sarif
+      - name: Convert trivy results to CycloneDX
         uses: aquasecurity/trivy-action@0.11.2
         with:
           image-ref: trivy.json
           scan-type: 'convert'
           format: 'cyclonedx'
-          # we don't actual limit them, but this gates convert
+          # we don't actual limit them, but this gates the convert action
           limit-severities-for-sarif: true
           # empty makes it skip the --vuln-type arg
           vuln-type: ''
           output: 'trivy.cdx'
 
       - run: cat trivy.cdx
+
+      - name: Convert trivy results to cosign-vuln
+        uses: aquasecurity/trivy-action@0.11.2
+        with:
+          image-ref: trivy.json
+          scan-type: 'convert'
+          format: 'cosign-vuln'
+          # we don't actual limit them, but this gates the convert action
+          limit-severities-for-sarif: true
+          # empty makes it skip the --vuln-type arg
+          vuln-type: ''
+          output: 'trivy.cosign.json'
+
+      - run: cat trivy.cosign.json
