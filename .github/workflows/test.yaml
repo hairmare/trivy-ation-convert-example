@@ -31,3 +31,17 @@ jobs:
           output: 'trivy.sarif'
 
       - run: cat trivy.sarif
+
+      - name: Convert trivy results to sarif
+        uses: aquasecurity/trivy-action@0.11.2
+        with:
+          image-ref: trivy.json
+          scan-type: 'convert'
+          format: 'cyclonedx'
+          # we don't actual limit them, but this gates convert
+          limit-severities-for-sarif: true
+          # empty makes it skip the --vuln-type arg
+          vuln-type: ''
+          output: 'trivy.cdx'
+
+      - run: cat trivy.cdx
