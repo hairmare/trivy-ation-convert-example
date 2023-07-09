@@ -26,6 +26,8 @@ jobs:
           format: 'sarif'
           # we don't actual limit them, but this gates convert
           limit-severities-for-sarif: true
+          # empty makes it skip the --vuln-type arg
+          vuln-type: ''
           output: 'trivy.sarif'
 
       - run: cat trivy.sarif
