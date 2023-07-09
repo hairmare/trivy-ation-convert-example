@@ -24,6 +24,8 @@ jobs:
           image-ref: trivy.json
           scan-type: 'convert'
           format: 'sarif'
+          # we don't actual limit them, but this gates convert
+          limit-severities-for-sarif: true
           output: 'trivy.sarif'
 
       - run: cat trivy.sarif
